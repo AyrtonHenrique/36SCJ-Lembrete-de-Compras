@@ -3,6 +3,7 @@ package br.com.heiderlopes.lembretedecompras.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -33,18 +34,25 @@ class LoginActivity : AppCompatActivity() {
         iniciarViewModel()
         iniciarListener()
         iniciarObserver()
+        buscaUltimoUsuarioLogado()
 
+    }
+
+    private fun buscaUltimoUsuarioLogado() {
+        loginViewModel.getUsuarioLogado()
     }
 
     private fun iniciarObserver() {
         loginViewModel.loginState.observe(this, Observer {
             when(it) {
                 is RequestState.Success -> {
+                    Log.i("LEMBRETEDECOMPRAS", "LOGIN COM SUCESSO")
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
 
                 is RequestState.Error -> {
+                    Log.i("LEMBRETEDECOMPRAS", "LOGIN INVALIDO")
                     val animShake = AnimationUtils.loadAnimation(this, R.anim.shake)
                     containerLogin.startAnimation(animShake)
                     tvPasswordFeedback.text = it.throwable.message
@@ -52,6 +60,19 @@ class LoginActivity : AppCompatActivity() {
 
                 is RequestState.Loading -> {
                     // Implementacao do Loading
+                    Log.i("LEMBRETEDECOMPRAS", "ESTOU CARREGANDO")
+                }
+            }
+        })
+
+        loginViewModel.usuarioLogadoState.observe(this, Observer {
+            when (it) {
+                is RequestState.Success -> {
+                    etEmail.setText(it.data)
+                }
+                is RequestState.Error -> {
+                }
+                is RequestState.Loading -> {
                 }
             }
         })
