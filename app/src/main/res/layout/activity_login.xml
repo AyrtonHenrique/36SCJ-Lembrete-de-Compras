@@ -7,7 +7,7 @@
     android:background="#e2f4e4"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:background="#e2f4e4"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".MainActivity">
+        tools:context=".ui.main.MainActivity">
 
         <LinearLayout
             android:id="@+id/linearLayout"
